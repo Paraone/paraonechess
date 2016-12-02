@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Game #{{id}}</title>
+  <link rel="stylesheet" href="/public/css/chessboard-0.3.0.css">
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/public/css/style.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Rye' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript" src="/public/js/jquery.js"></script>
+  <script type="text/javascript" src="/public/js/chessboard-0.3.0.js"></script>
+  <script type="text/javascript" src="/public/js/chess.js"></script>
+  <script type="text/javascript" src="/public/js/mygame.js"></script>
+</head>
+<body>
+{{>header}}
+<div id="main-content" class="main-container">
+  <div id="gamestuff">
+      <div>Player: {{username}}, Game: #{{game_id}}</div>
+    <div id="board-section">
+      <div id="board1" style="width: 400px;"></div>
+    </div>
+    <div id="moves-section">
+    <!-- moves appended here -->
+    </div>
+    <ul id="mygamebtns">
+      <li class="mygamebtn"><input type="button" id="startbtn" value="Start Position"></li>
+      <li class="mygamebtn"><input type="button" id="lastbtn" value="Prev"></li>
+      <li class="mygamebtn"><input type="button" id="nextbtn" value="Next"></li>
+      <li class="mygamebtn"><input type="button" id="endbtn" value="End Position"></li>
+    </ul>
+  </div>
+    {{#movelist}}
+      <div class="chessmove">{{.}}</div>
+    {{/movelist}}
+    {{#fenlist}}
+      <div class="fenmove">{{.}}</div>
+    {{/fenlist}}
+</div>
+</body>
+</html>

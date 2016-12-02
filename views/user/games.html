@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{username}}'s Games</title>
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/public/css/style.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Rye' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    {{>header}}
+<div class="main-container">
+  {{#games}}
+  <div>
+    <div><a href="/game/{{id}}">Game #: {{id}}</a></div>
+    <div>{{movelist}}</div>
+  </div>
+  {{/games}}
+</div>
+</body>
+</html>
