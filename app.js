@@ -13,6 +13,7 @@ const salt = bcrypt.genSalt(10);
 
 // app id
 const APP_ID = process.env.APIKEY;
+const PORT = process.env.PORT || 3000;
 
 var alertUser = function(string, path){
 	var alert = encodeURIComponent(string);
@@ -39,10 +40,10 @@ app.use(session({
 	}
 }));
 
-var db = pgp('postgres://student_01@localhost:5432/auth_xfiles');
+var db = pgp(process.env.DATABASE_URL || 'postgres://student_01@localhost:5432/auth_xfiles');
 
-app.listen(3000, function () {
-	console.log('Alive on port 3000!');
+app.listen(PORT, function () {
+	console.log('Alive on port '+PORT);
 });
 
 app.get('/', function(req, res){
