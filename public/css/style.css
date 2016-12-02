@@ -1,0 +1,139 @@
+body{
+  padding: 0;
+  margin: 0;
+}
+.main-container {
+  width: 980px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: left;
+}
+
+h2{
+  padding: 0;
+  margin: 0;
+  font-size: 50px;
+}
+header{
+  width: 100%;
+  background: rgba(255, 255, 0, 1);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .3);
+  margin-bottom: 10px;
+}
+nav{
+  padding: 0;
+  background: black;
+}
+.center-block { float: none }
+
+.alertm{
+  color: red;
+}
+
+#acctul, #navul{
+  padding: 0;
+  margin: 0;
+}
+.acctli, .navli{
+  display: inline-block;
+  list-style-type: none;
+}
+#acctul{
+  float: right;
+  padding: 20px;
+}
+.acctli{
+  margin-left: 20px;
+}
+#navul{
+  padding: 0px 0px;
+  clear: both;
+  background: black;
+  color: white;
+}
+.navli{
+  padding: 0;
+  margin: 0;
+  min-width: 70px;
+  background: rgba(255, 255, 255, .15);
+  color: white;
+  text-align: center;
+}
+.navli a{
+  color: white;
+  display: block;
+  width: 100%;
+  height: 100% ;
+  padding: 10px;
+  transition: .5s box-shadow;
+}
+.navli a:hover{
+  box-shadow: 0px -6px 0px rgba(255, 255, 255, 1);
+}
+.chessmove{
+  display: inline-block;
+  padding: 10px;
+  margin: 5px 0;
+  width: 70px;
+  text-align: center;
+  background: rgba(255, 255, 255, .5);
+  border: dotted 1px black;
+}
+#movelist{
+  padding: 20px;
+  margin: 0;
+  border: 2px solid black;
+  background: rgba(225, 255, 0, .3);
+  width: 200px;
+  height: 400px;
+  overflow: scroll;
+}
+.fenmove{
+  display: none;
+}
+
+#playerHolder{
+  float: right;
+}
+#results{
+  height: 400px;
+  overflow: scroll;
+}
+.viewbtn{
+  margin-bottom: 5px;
+}
+.vidholder{
+  margin: 10px auto;
+  padding: 5px;
+  width: 100%;
+  word-wrap: break-word;
+}
+.title{
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+.channel{
+  color: rgba(0, 0, 150, 1);
+}
+#mygamebtns{
+  clear: both;
+  padding: 0;
+  margin: 0;
+}
+.mygamebtn{
+  display: inline-block;
+  list-style-type: none;
+  margin: 0 5px 0 0;
+  padding: 0;
+}
+#board-section, #moves-section{
+  float: left;
+}
+#gamestuff{
+
+}
+.welcome{
+  padding: 15px 15px 15px 0px;
+}

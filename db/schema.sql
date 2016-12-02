@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS games CASCADE;
+
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE,
+  username VARCHAR(255) UNIQUE,
+  password_digest VARCHAR(255)
+);
+
+CREATE TABLE games(
+  id SERIAL PRIMARY KEY,
+  movelist TEXT,
+  fenlist TEXT,
+  user_id INTEGER REFERENCES users(id)
+);
