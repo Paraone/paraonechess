@@ -78,7 +78,10 @@ MVP:
 
 Wireframes:
 
-![](wireframe01.jpg)
+![](https://raw.githubusercontent.com/Paraone/paraonechess/master/IMG_1305.JPG)
+![](https://raw.githubusercontent.com/Paraone/paraonechess/master/IMG_1306.JPG)
+![](https://raw.githubusercontent.com/Paraone/paraonechess/master/IMG_1307.JPG)
+![](https://raw.githubusercontent.com/Paraone/paraonechess/master/IMG_1308.JPG)
 
 
 
