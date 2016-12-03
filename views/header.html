@@ -2,9 +2,9 @@
         <div class="main-container">
     {{#logged_in}}
         <ul id="acctul">
-          <li class="acctli"><a href="/games/{{id}}">My Games</a></li>
-          <li class="acctli"><a href="/user/{{id}}">Profile</a></li>
-          <li class="acctli"><a href="/user/{{id}}/account">Account</a></li>
+          <li class="acctli"><a href="/games/{{user.id}}">My Games</a></li>
+          <li class="acctli"><a href="/user/{{user.id}}">Profile</a></li>
+          <li class="acctli"><a href="/user/{{user.id}}/account">Account</a></li>
           <li class="acctli"><a href="/logout">Log out</a></li>
         </ul>
     {{/logged_in}}

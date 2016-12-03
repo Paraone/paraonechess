@@ -15,6 +15,7 @@
 <body>
   {{>header}}
   <div class="main-container">
+<div class="row contents">
     Search GM Games:
     <form action="/search" method="POST">
     <input type="text" id="search" name="search">
@@ -39,6 +40,8 @@
       </div>
       {{/items}}
     </div>
+    </div>
   </div>
+  {{>footer}}
 </body>
 </html>

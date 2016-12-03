@@ -17,13 +17,16 @@
 <body>
   {{>header}}
   <div class="main-container">
-    <div>Playing game as: {{username}}</div>
+<div class="row contents">
+    <div>Playing game as: {{user.username}}</div>
     <div id="board1" style="width: 400px;"></div>
     <form action="/save" method="POST">
     <input type="hidden" name="mygame" id="mygame">
     <input type="hidden" name="fenlist" id="fenlist">
     <button type="submit">save game</button>
     </form>
+    </div>
   </div>
+  {{>footer}}
 </body>
 </html>

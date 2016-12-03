@@ -5,17 +5,19 @@
     <link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/public/css/style.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Rye' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="/public/js/footer.js"></script>
   </head>
   <body>
       {{>header}}
     <div class="main-container">
+<div class="row contents col-lg-12">
       <div class="border-container">
         <h1>ParaoneChess</h1>
         <br>
         {{#logged_in}}
         <div class="col-lg-6">
           <div class="welcome">
-            <h4>Welcome {{email}}!</h4>
+            <h4>Welcome {{user.username}}!</h4>
           </div>
           <span class="alertm">{{alert}}</span> <a href="/logout">Logout!</a>
         </div>
@@ -52,5 +54,7 @@
         {{/logged_in}}
       </div>
     </div>
+    </div>
+    {{>footer}}
   </body>
 </html>

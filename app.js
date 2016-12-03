@@ -47,37 +47,37 @@ app.listen(PORT, function () {
 });
 
 app.get('/', function(req, res){
-	var logged_in, email, id;
+	var logged_in, email, user;
 	var alert = req.query.alert;
 	if(req.session.user){
 		logged_in = true;
 		email = req.session.user.email;
-		id = req.session.user.id;
+		user = req.session.user;
 	}
 	var data = {
 		alert : alert,
 		logged_in : logged_in,
 		email : email,
-		id: id
+		user: user
 	};
+  db.any('SELECT * FROM users')
+  .then(function(users){
+    data.users = users;
+  });
 	res.render('index', data);
 });
 
 app.get('/user/:id/account', function(req, res){
-	var logged_in, email, username, id, alert;
+	var logged_in, user, alert;
 	var page_id = req.params.id;
 
 	if(req.session.user){
 		logged_in = true;
-		email = req.session.user.email;
-		username = req.session.user.username;
-		id = req.session.user.id;
-		if(Number(id) === Number(page_id)){
+		user = req.session.user;
+		if(Number(user.id) === Number(page_id)){
 		var data = {
 			logged_in : logged_in,
-			email: email,
-			username: username,
-			id : id
+			user: user
 		};
 		res.render('user/account', data);
 		}else{
@@ -101,6 +101,7 @@ app.get('/user/:id', function(req, res){
 	}).then(function(user){
 		user.logged_in = logged_in;
 		user.alert = alert;
+    user.user = req.session.user;
 		res.render('user/index', user);
 	});
 });
@@ -198,8 +199,7 @@ app.get('/play', function(req, res){
     logged_in = true;
     var data = {
       logged_in : logged_in,
-      username : user.username,
-      id : user.id
+      user : user
     };
     res.render('play', data);
   }else{
@@ -232,8 +232,7 @@ app.get('/games/:id', function(req, res){
     .then(function(games){
       var data = {
         logged_in : logged_in,
-        id : user.id,
-        username : user.username,
+        user: user,
         games: games
       };
       res.render('user/games', data);
@@ -254,6 +253,7 @@ app.get('/game/:id', function(req, res){
     .then(function(data){
       data.movelist = data.movelist.split(',');
       data.fenlist = data.fenlist.split('~');
+      data.user = user;
       res.render('user/game', data);
     });
   }else{
@@ -270,7 +270,11 @@ app.post('/search', function(req, res){
     return response.json();
   })
   .then(function(body){
+    var logged_in;
+    if(req.session.user) logged_in = true;
     var data = {
+      logged_in: logged_in,
+      user: req.session.user,
       items : []
     };
     body.items.map(function(video){
@@ -289,40 +293,40 @@ app.post('/search', function(req, res){
 });
 
 app.get('/watch', function(req, res){
-  var user_id, logged_in;
+  var user, logged_in;
   if(req.session.user){
-    user_id = req.session.user.id;
+    user = req.session.user;
     logged_in = true;
   }
   var data = {
     logged_in : logged_in,
-    id : user_id
+    id : user
   };
   res.render('watch', data);
 });
 
 app.get('/about', function(req, res){
-  var user_id, logged_in;
+  var user, logged_in;
   if(req.session.user){
-    user_id = req.session.user.id;
+    user = req.session.user;
     logged_in = true;
   }
   var data = {
     logged_in : logged_in,
-    id : user_id
+    user : user
   };
   res.render('about', data);
 });
 
 app.get('/contact', function(req, res){
-  var user_id, logged_in;
+  var user, logged_in;
   if(req.session.user){
     logged_in = true;
-    user_id = req.session.user.id;
+    user = req.session.user;
   }
   var data = {
     logged_in : logged_in,
-    id : user_id
+    user : user
   };
   res.render('contact', data);
 });

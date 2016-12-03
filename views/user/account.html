@@ -11,6 +11,7 @@
 <body>
   {{>header}}
 <div class="main-container">
+<div class="contents row">
   <div class="well bs-component col-lg-6">
     <form action="/user?__method=PUT" method="POST" class="form-horizontal">
       <fieldset>
@@ -19,14 +20,14 @@
         <div class="form-group">
           <label for="inputUsername" class="col-lg-2 control-label">Username:</label>
           <div class="col-lg-10">
-            <input type="text" name="username" value="{{username}}" id="inputUsername" placeholder="Username">
+            <input type="text" name="username" value="{{user.username}}" id="inputUsername" placeholder="Username">
           </div>
         </div>
 
         <div class="form-group">
           <label for="inputEmail" class="col-lg-2 control-label">Email:</label>
           <div class="col-lg-10">
-            <input type="text" name="email" value="{{email}}" id="inputEmail" placeholder="Email">
+            <input type="text" name="email" value="{{user.email}}" id="inputEmail" placeholder="Email">
           </div>
         </div>
 
@@ -36,7 +37,7 @@
           </div>
         </div>
         <div>
-          <a href="/user/{{id}}/changepassword" class="btn btn-warning">Change Password</a>
+          <a href="/user/{{user.id}}/changepassword" class="btn btn-warning">Change Password</a>
         </div>
       </fieldset>
     </form>
@@ -48,6 +49,7 @@
         </div>
       </fieldset>
     </form>
+  </div>
   </div>
 </div>
 </body>

@@ -1,11 +1,18 @@
 body{
    background: url('https://s-media-cache-ak0.pinimg.com/originals/bc/93/75/bc937577602afdad37295b44926296e6.jpg');
+   background-size: cover;
   padding: 0;
   margin: 0;
 }
 .main-container {
   width: 980px;
   margin: 0 auto;
+}
+.contents{
+  margin-bottom: 100px;
+  padding: 15px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, .9);
 }
 /*  */
 h1 {
@@ -22,6 +29,18 @@ header{
   background: rgba(255, 255, 0, 1);
   box-shadow: 5px 5px 5px rgba(0, 0, 0, .3);
   margin-bottom: 10px;
+}
+footer{
+  position: fixed;
+  bottom: 0;
+  padding: 15px;
+  width: 100%;
+  clear: both;
+  background: black;
+}
+footer span{
+  float: right;
+  color: white;
 }
 nav{
   padding: 0;
@@ -137,4 +156,11 @@ nav{
 }
 .welcome{
   padding: 15px 15px 15px 0px;
+}
+.well{
+  color: blue;
+  background: rgba(0, 0, 0, .8);
+}
+legend{
+  color: blue;
 }

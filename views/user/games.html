@@ -11,12 +11,14 @@
 <body>
     {{>header}}
 <div class="main-container">
+<div class="contents row">
   {{#games}}
   <div>
     <div><a href="/game/{{id}}">Game #: {{id}}</a></div>
     <div>{{movelist}}</div>
   </div>
   {{/games}}
+  </div>
 </div>
 </body>
 </html>
