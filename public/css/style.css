@@ -169,6 +169,7 @@ legend{
   color: white;
 }
 #users-container{
+  width: 45%;
   float: right;
   margin-right: 30px;
 }
