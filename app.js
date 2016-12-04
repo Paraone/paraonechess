@@ -11,16 +11,19 @@ const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSalt(10);
 
-// app id
+// app id and port
 const APP_ID = process.env.APIKEY;
 const PORT = process.env.PORT || 3000;
 
+// alertUser() creates returns a path with an alert attached
+// to the req.query
 var alertUser = function(string, path){
 	var alert = encodeURIComponent(string);
 	if(!path) path = '/';
 	return path+'?alert='+alert;
 };
 
+// configurations for modules
 app.engine('html', mustacheExpress());
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
@@ -42,39 +45,43 @@ app.use(session({
 
 var db = pgp(process.env.DATABASE_URL || 'postgres://student_01@localhost:5432/auth_xfiles');
 
+// Starter up!
 app.listen(PORT, function () {
 	console.log('Alive on port '+PORT);
 });
 
+// Home page
 app.get('/', function(req, res){
 	var logged_in, email, user;
 	var alert = req.query.alert;
-	if(req.session.user){
-		logged_in = true;
-		email = req.session.user.email;
-		user = req.session.user;
+	if(req.session.user){ // checks to see if user is logged in
+		logged_in = true; // set logged in to true
+		user = req.session.user;// keep reference to user info
 	}
+
+  // getting players from database
+  // allowing players to see other's profiles
   db.any('SELECT * FROM users')
   .then(function(users){
     var data = {
       alert : alert,
       logged_in : logged_in,
-      email : email,
       user: user,
       users: users
     };
-    console.log(users);
-  	res.render('index', data);
+  	res.render('index', data); //render homepage sending data
   });
 });
 
+// user's account page
 app.get('/user/:id/account', function(req, res){
 	var logged_in, user, alert;
 	var page_id = req.params.id;
 
-	if(req.session.user){
+	if(req.session.user){ // check to see if user is logged in
 		logged_in = true;
 		user = req.session.user;
+    // only proceed if user.id match params.id
 		if(Number(user.id) === Number(page_id)){
 		var data = {
 			logged_in : logged_in,
@@ -82,18 +89,19 @@ app.get('/user/:id/account', function(req, res){
 		};
 		res.render('user/account', data);
 		}else{
-			res.redirect(alertUser('You must log in to view account pages.'));
+			res.redirect(alertUser('You must log in.'));
 		}
 	}else{
-		res.redirect(alertUser('You must log in to view account pages.'));
+		res.redirect(alertUser('You must log in.'));
 	}
 });
 
+// profile pages
 app.get('/user/:id', function(req, res){
 	var alert = req.query.alert;
 	var logged_in;
 	var page_id = req.params.id;
-	if(req.session.user){
+	if(req.session.user){ // checking login data for header.html
 		logged_in = true;
 	}
 	db.one('SELECT * FROM users WHERE id=$1', [page_id])
@@ -102,10 +110,12 @@ app.get('/user/:id', function(req, res){
 	}).then(function(user){
 		user.logged_in = logged_in;
 		user.alert = alert;
-    user.user = req.session.user;
+    user.user = req.session.user; // data for header.html
 		res.render('user/index', user);
 	});
 });
+
+// changepassword page
 app.get('/user/:id/changepassword', function(req, res){
   var user_id = req.params.id;
   var user = req.session.user;
@@ -118,6 +128,7 @@ app.get('/user/:id/changepassword', function(req, res){
   }
 });
 
+// changing user info
 app.put('/user', function(req, res){
   var alert;
   var formdata = req.body;
@@ -133,21 +144,25 @@ app.put('/user', function(req, res){
   }
 });
 
+// deleting user from database
 app.delete('/user', function(req, res){
-  if(req.session.user){
+  if(req.session.user){ // only allow if user is logged in.
     var user_id = req.session.user.id;
+    //first delete references to user.id
     db.none('DELETE FROM games WHERE user_id=$1', [user_id])
     .catch(function(err){
       console.log(err);
       res.redirect(alertUser('Could not delete user\'s games.'));
     })
     .then(function(data){
+      // .then delete user from database
       db.none('DELETE FROM users WHERE id=$1', [user_id])
       .catch(function(err){
         console.log(err);
         res.redirect(alertUser('Could not delete user.'));
       })
       .then(function(data){
+        // .then kill user's session
         req.session.destroy(function(err){
           res.redirect(alertUser('User has been deleted'));
         });
@@ -158,6 +173,7 @@ app.delete('/user', function(req, res){
   }
 });
 
+// login
 app.post('/login', function(req, res){
   var data = req.body;
 
@@ -177,34 +193,41 @@ app.post('/login', function(req, res){
   });
 });
 
+// sign up page
 app.get('/signup', function(req, res){
   res.render('signup/index');
 });
 
+// adding user to database
 app.post('/signup', function(req, res){
   var data = req.body;
   bcrypt.hash(data.password, 10, function(err, hash){
+    // RETURNING * to start user session upon creation.
     db.one('INSERT INTO users (id, username, email, password_digest) VALUES (DEFAULT, $1, $2, $3) RETURNING *', [data.username, data.email, hash])
       .catch(function(err){
         res.redirect(alertUser('User could not be created'));
       })
       .then(function(user){
+        // starting user's session when created
         req.session.user = user;
-            res.redirect(alertUser('User created', '/user/'+user.id));
+        // sending user to profile page
+        res.redirect(alertUser('User created', '/user/'+user.id));
       });
   });
 });
 
+// logout
 app.get('/logout', function(req, res){
   req.session.destroy(function(err){
         res.redirect(alertUser('User logged out.'));
   });
 });
 
+// play page
 app.get('/play', function(req, res){
   var logged_in;
   var user = req.session.user;
-  if(user){
+  if(user){ // allow user to play if logged in
     logged_in = true;
     var data = {
       logged_in : logged_in,
@@ -216,21 +239,24 @@ app.get('/play', function(req, res){
   }
 });
 
+// saving player's games
 app.post('/save', function(req, res){
-  var movelist = req.body.mygame;
-  var fenlist = req.body.fenlist;
-  var user = req.session.user;
+  var movelist = req.body.mygame; // moves in standard notation
+  var fenlist = req.body.fenlist; // moves in FEN notation
+  var user = req.session.user; // user data
   db.none('INSERT INTO games (id, movelist, fenlist, user_id) VALUES (DEFAULT, $1, $2, $3)', [movelist, fenlist, user.id])
   .catch(function(err){
     res.redirect(alertUser('Game could not be saved.'));
   }).then(function(data){
+    //sending user's to their profile page if save is success
     res.redirect(alertUser('Your game was saved successfully.','/user/'+user.id));
   });
 });
 
+// page of user's games
 app.get('/games/:id', function(req, res){
   var user_id = req.params.id, logged_in, user;
-  if(req.session.user){
+  if(req.session.user){ // only allow user's who are logged in
     logged_in = true;
     user = req.session.user;
 
@@ -251,17 +277,19 @@ app.get('/games/:id', function(req, res){
   }
 });
 
+// game replay page
 app.get('/game/:id', function(req, res){
-  if(req.session.user){
+  if(req.session.user){ // only logged in users
     var game_id = req.params.id;
     var user = req.session.user;
+    // renaming due to id conflict in column names
     db.one('SELECT g.id AS game_id, g.movelist, g.fenlist, g.user_id AS id, u.username FROM games AS g JOIN users AS u ON g.user_id=u.id WHERE g.id=$1', [game_id])
     .catch(function(err){
       res.redirect(alertUser('Could not get game data.'));
     })
     .then(function(data){
-      data.movelist = data.movelist.split(',');
-      data.fenlist = data.fenlist.split('~');
+      data.movelist = data.movelist.split(','); // parse movelist
+      data.fenlist = data.fenlist.split('~'); // parse fenlist
       data.user = user;
       res.render('user/game', data);
     });
@@ -271,9 +299,10 @@ app.get('/game/:id', function(req, res){
 
 });
 
+// perform search API operation
 app.post('/search', function(req, res){
-  var search = req.body.search;
-  var narrow = encodeURIComponent('best chess games');
+  var search = req.body.search; // user's input
+  var narrow = encodeURIComponent('best chess games'); // narrow search to chess
   fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&q='+narrow+'%20'+search+'&key='+APP_ID)
   .then(function(response){
     return response.json();
@@ -287,6 +316,7 @@ app.post('/search', function(req, res){
       items : []
     };
     body.items.map(function(video){
+      // getting relavent data from API response
       data.items.push({
         title: video.snippet.title,
         description : video.snippet.description,
@@ -296,14 +326,15 @@ app.post('/search', function(req, res){
         playlistid : video.id.playlistId
       });
     });
-    console.log(data);
+    // rerendering watch.html with data
     res.render('watch', data);
   });
 });
 
+// watch page
 app.get('/watch', function(req, res){
   var user, logged_in;
-  if(req.session.user){
+  if(req.session.user){ // storing info for header.html
     user = req.session.user;
     logged_in = true;
   }
@@ -314,9 +345,10 @@ app.get('/watch', function(req, res){
   res.render('watch', data);
 });
 
+// about page
 app.get('/about', function(req, res){
   var user, logged_in;
-  if(req.session.user){
+  if(req.session.user){// storing info for header.html
     user = req.session.user;
     logged_in = true;
   }
@@ -327,9 +359,10 @@ app.get('/about', function(req, res){
   res.render('about', data);
 });
 
+// contact page
 app.get('/contact', function(req, res){
   var user, logged_in;
-  if(req.session.user){
+  if(req.session.user){// storing info for header.html
     logged_in = true;
     user = req.session.user;
   }
