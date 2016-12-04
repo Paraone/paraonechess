@@ -1,6 +1,7 @@
 body{
-   background: url('https://s-media-cache-ak0.pinimg.com/originals/bc/93/75/bc937577602afdad37295b44926296e6.jpg');
-   background-size: cover;
+   background: url('https://s-media-cache-ak0.pinimg.com/originals/bc/93/75/bc937577602afdad37295b44926296e6.jpg'), black;
+   background-size: 100%;
+   background-repeat: no-repeat;
   padding: 0;
   margin: 0;
 }
@@ -158,9 +159,16 @@ nav{
   padding: 15px 15px 15px 0px;
 }
 .well{
-  color: blue;
+  color: white;
   background: rgba(0, 0, 0, .8);
 }
+.well input{
+  color: black;
+}
 legend{
-  color: blue;
+  color: white;
+}
+#users-container{
+  float: right;
+  margin-right: 30px;
 }

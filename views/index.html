@@ -53,10 +53,9 @@
         </div>
         {{/logged_in}}
         <div id="users-container">
+        <h2>Players:</h2>
           {{#users}}
-            <div class="profiles">
-              {{.}}
-            </div>
+              <div class="profile"><a href="/user/{{id}}">{{username}}</a></div>
           {{/users}}
         </div>
       </div>

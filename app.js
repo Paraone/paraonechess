@@ -54,17 +54,18 @@ app.get('/', function(req, res){
 		email = req.session.user.email;
 		user = req.session.user;
 	}
-	var data = {
-		alert : alert,
-		logged_in : logged_in,
-		email : email,
-		user: user
-	};
   db.any('SELECT * FROM users')
   .then(function(users){
-    data.users = users;
+    var data = {
+      alert : alert,
+      logged_in : logged_in,
+      email : email,
+      user: user,
+      users: users
+    };
+    console.log(users);
+  	res.render('index', data);
   });
-	res.render('index', data);
 });
 
 app.get('/user/:id/account', function(req, res){
@@ -135,13 +136,21 @@ app.put('/user', function(req, res){
 app.delete('/user', function(req, res){
   if(req.session.user){
     var user_id = req.session.user.id;
-    db.none('DELETE FROM users WHERE id=$1', [user_id])
+    db.none('DELETE FROM games WHERE user_id=$1', [user_id])
     .catch(function(err){
-      res.redirect(alertUser('Could not delete user.'));
+      console.log(err);
+      res.redirect(alertUser('Could not delete user\'s games.'));
     })
     .then(function(data){
-      req.session.destroy(function(err){
-        res.redirect(alertUser('User has been deleted'));
+      db.none('DELETE FROM users WHERE id=$1', [user_id])
+      .catch(function(err){
+        console.log(err);
+        res.redirect(alertUser('Could not delete user.'));
+      })
+      .then(function(data){
+        req.session.destroy(function(err){
+          res.redirect(alertUser('User has been deleted'));
+        });
       });
     });
   }else{
