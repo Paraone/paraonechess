@@ -9,7 +9,7 @@
   </head>
   <body>
       {{>header}}
-    <div class="main-container">
+    <div class="container">
 <div class="row contents">
 
       <div class="border-container">
@@ -53,8 +53,8 @@
           <p>Not a member? <a href="/signup">Sign Up!</a><span class="alertm"> {{alert}}</span></p>
           <div id="status"></div>
         </div>
-        {{/logged_in}}
-        <div id="users-container">
+        {{/logged_in}}<!-- id="users-container" -->
+        <div  class="col-lg-6">
         <h2>Players:</h2>
           {{#users}}
               <div class="profile"><a href="/user/{{id}}">{{username}}</a></div>

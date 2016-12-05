@@ -1,25 +1,29 @@
 <header id="header" class="">
-        <div class="main-container">
-    {{#logged_in}}
-        <ul id="acctul">
-          <li class="acctli"><a href="/games/{{user.id}}">My Games</a></li>
-          <li class="acctli"><a href="/user/{{user.id}}">Profile</a></li>
-          <li class="acctli"><a href="/user/{{user.id}}/account">Account</a></li>
-          <li class="acctli"><a href="/logout">Log out</a></li>
-        </ul>
-    {{/logged_in}}
-    {{^logged_in}}
-      <ul id="acctul">
-        <li class="acctli"><a href="/signup">Sign Up</a></li>
-      </ul>
-    {{/logged_in}}
-        <div class="headerdiv">
-          <div><img src="" alt=""></div>
-          <div><h2>ParaoneChess</h2></div>
+        <div class="container">
+<div class="row">
+           <div class="headerdiv col-lg-7">
+             <div><img src="" alt=""></div>
+             <div><h2>ParaoneChess</h2></div>
+           </div>
+          <div class="col-lg-5">
+             {{#logged_in}}
+                 <ul id="acctul">
+                   <li class="acctli"><a href="/games/{{user.id}}">My Games</a></li>
+                   <li class="acctli"><a href="/user/{{user.id}}">Profile</a></li>
+                   <li class="acctli"><a href="/user/{{user.id}}/account">Account</a></li>
+                   <li class="acctli"><a href="/logout">Log out</a></li>
+                 </ul>
+             {{/logged_in}}
+             {{^logged_in}}
+               <ul id="acctul">
+                 <li class="acctli"><a href="/signup">Sign Up</a></li>
+               </ul>
+             {{/logged_in}}
+           </div>
         </div>
         </div>
-        <nav>
-          <div class="main-container">
+          <nav>
+        <div class="container">
             <ul id="navul">
               <li class="navli"><a href="/" title="">Players</a></li>
               <li class="navli"><a href="/play" title="">Play</a></li>
@@ -27,6 +31,6 @@
               <li class="navli"><a href="/about" title="">About</a></li>
               <li class="navli"><a href="/contact" title="">Contact</a></li>
             </ul>
-          </div>
-        </nav>
+        </div>
+          </nav>
       </header><!-- /header -->

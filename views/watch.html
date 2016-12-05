@@ -14,31 +14,33 @@
 </head>
 <body>
   {{>header}}
-  <div class="main-container">
+  <div class="container">
 <div class="row contents">
-    Search GM Games:
-    <form action="/search" method="POST">
-    <input type="text" id="search" name="search">
-    <input type="submit" id="searchbtn" value="Submit">
-    </form>
-    <div id="playerHolder">
-      <div id="player"></div>
+<div class="col-lg-5">
+       Search GM Games:
+       <form action="/search" method="POST">
+       <input type="text" id="search" name="search">
+       <input type="submit" id="searchbtn" value="Submit">
+       </form>
+       <div id="results">
+         {{#items}}
+         <div class="vidholder">
+           {{#videoid}}
+           <button class="viewbtn" videoid="{{videoid}}">Watch Video</button>
+           {{/videoid}}
+           {{#playlistid}}
+           <button class="viewbtn" playlistid="{{playlistid}}">Watch Playlist</button>
+           {{/playlistid}}
+           <div><img class="vidimg" src="{{img}}" alt=""></div>
+           <div class="title">{{title}}</div>
+           <div class="descript">{{description}}</div>
+           <div class="channel">Channel: {{channel}}</div>
+         </div>
+         {{/items}}
+       </div>
     </div>
-    <div id="results">
-      {{#items}}
-      <div class="vidholder">
-        {{#videoid}}
-        <button class="viewbtn" videoid="{{videoid}}">Watch Video</button>
-        {{/videoid}}
-        {{#playlistid}}
-        <button class="viewbtn" playlistid="{{playlistid}}">Watch Playlist</button>
-        {{/playlistid}}
-        <div><img class="vidimg" src="{{img}}" alt=""></div>
-        <div class="title">{{title}}</div>
-        <div class="descript">{{description}}</div>
-        <div class="channel">Channel: {{channel}}</div>
-      </div>
-      {{/items}}
+    <div id="playerHolder col-lg-7">
+      <div id="player"></div>
     </div>
     </div>
   </div>
