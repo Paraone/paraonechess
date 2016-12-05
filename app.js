@@ -119,14 +119,13 @@ app.get('/user/:id', function(req, res){
 app.get('/user/:id/changepassword', function(req, res){
   var user_id = req.params.id;
   var user = req.session.user;
-  console.log(user.id);
-  console.log(user_id);
   if(user.id == user_id){
     res.render('user/changepassword', user);
   }else{
     res.redirect(alertUser('You must log in!'));
   }
 });
+
 
 // changing user info
 app.put('/user', function(req, res){
@@ -216,6 +215,33 @@ app.post('/signup', function(req, res){
   });
 });
 
+app.put('/changepassword', function(req, res){
+  var user = req.session.user, oldpass, newpass;
+  if(user){
+    oldpass = req.body.password;
+    newpass = req.body.newpassword;
+    bcrypt.compare(oldpass, user.password_digest, function(err, cmp){
+      if(cmp){
+        bcrypt.hash(newpass, 10, function(e, hash){
+          db.none('UPDATE users SET (password_digest)=($1) WHERE id=$2', [hash, user.id])
+          .catch(function(er){
+            console.log(er);
+            res.redirect(alertUser('Could not change password.'));
+          })
+          .then(function(){
+            res.redirect(alertUser('Password changed.'));
+          });
+        });
+      }else{
+        console.log(err);
+        res.redirect(alertUser('A problem occured.'));
+      }
+    });
+  }else{
+
+    res.redirect(alertUser('You must log in!'));
+  }
+});
 // logout
 app.get('/logout', function(req, res){
   req.session.destroy(function(err){
