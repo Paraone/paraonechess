@@ -118,6 +118,7 @@ nav{
   float: right;
 }
 #results{
+  margin-bottom: 10px;
   height: 400px;
   overflow: scroll;
 }

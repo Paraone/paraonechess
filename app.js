@@ -317,6 +317,7 @@ app.get('/game/:id', function(req, res){
       data.movelist = data.movelist.split(','); // parse movelist
       data.fenlist = data.fenlist.split('~'); // parse fenlist
       data.user = user;
+      data.logged_in = true;
       res.render('user/game', data);
     });
   }else{
